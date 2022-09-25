@@ -131,7 +131,8 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="DLL.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Enemy2.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
@@ -139,7 +140,8 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="DLL.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Enemy2.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Player.cpp" />

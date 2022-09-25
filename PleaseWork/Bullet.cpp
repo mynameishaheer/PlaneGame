@@ -1,6 +1,7 @@
 #include "Bullet.h"
 
-Bullet::Bullet(int x, int y) :Plane(x, y) {
+Bullet::Bullet(int x, int y) :GameObject(x, y) {
+	type = 'B';
 	ascii_art.append(L"    ");
 	ascii_art.append(L" || ");
 	ascii_art.append(L"    ");

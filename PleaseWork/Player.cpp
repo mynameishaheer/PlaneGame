@@ -4,11 +4,12 @@ Player::Player()
 {
 }
 
-Player::Player(int x, int y) :Plane(x, y)
+Player::Player(int x, int y) :GameObject(x, y)
 {
 
 	this->plane_x = x;
 	this->plane_y = y;
+	type = 'P';
 
 	ascii_art.append(L" /\\ ");
 	ascii_art.append(L" || ");

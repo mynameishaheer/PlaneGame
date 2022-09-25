@@ -1,22 +1,22 @@
-#include "Enemy.h"
+#include "Enemy2.h"
 
-Enemy::Enemy()
+Enemy2::Enemy2()
 {
 }
 
-Enemy::Enemy(int x, int y) : GameObject(x, y) {
-	type ='e';
+Enemy2::Enemy2(int x, int y) : GameObject(x, y) {
+	type = 'E';
 	ascii_art.clear();
-	ascii_art.append(L"|  |");
 	ascii_art.append(L"\\  /");
-	ascii_art.append(L" || ");
+	ascii_art.append(L"\\  /");
+	ascii_art.append(L"|  |");
 	ascii_art.append(L" \\/ ");
 
 }
 
-Enemy::~Enemy() {}
+Enemy2::~Enemy2() {}
 
-void Enemy::updateArt() {
+void Enemy2::updateArt() {
 	if (this->hit == true) {
 		ascii_art.clear();
 		ascii_art.append(L"\\||/");
@@ -26,14 +26,14 @@ void Enemy::updateArt() {
 	}
 	else {
 		ascii_art.clear();
-		ascii_art.append(L"|  |");
 		ascii_art.append(L"\\  /");
-		ascii_art.append(L" || ");
+		ascii_art.append(L"\\  /");
+		ascii_art.append(L"|  |");
 		ascii_art.append(L" \\/ ");
 	}
 }
 
-void Enemy::Move() {
+void Enemy2::Move() {
 
 	y++;
 	if (y > 27) {
@@ -41,7 +41,7 @@ void Enemy::Move() {
 	}
 }
 
-void Enemy::Hit() {
+void Enemy2::Hit() {
 
 	hit = true;
 	updateArt();

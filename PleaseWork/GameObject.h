@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class Plane {
+class GameObject {
 public:
 	//these following attributes are shared by each child
 	int x;
@@ -16,10 +16,11 @@ public:
 	wstring ascii_art;
 	bool alive;
 	bool hit;
+	char type;
 
-	Plane();
-	Plane(int x, int y);
-	virtual ~Plane(); //virtual destructor to automatically call child destructor when this is called in the Delete() function
+	GameObject();
+	GameObject(int x, int y);
+	virtual ~GameObject(); //virtual destructor to automatically call child destructor when this is called in the Delete() function
 
 	//virtual function
 	wstring virtual Art();

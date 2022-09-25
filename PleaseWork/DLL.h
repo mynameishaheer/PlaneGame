@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Plane.h"
+#include "GameObject.h"
 #include "Node.h"
 
 class DLL {
@@ -11,9 +11,9 @@ private:
 public:
 	DLL();
 
-	void Append(Plane* new_object);
+	void Append(GameObject* new_object);
 	void Delete();
-	Plane* at(int i);
+	GameObject* at(int i);
 	int Size();
 	void Delete2(int index);
 };

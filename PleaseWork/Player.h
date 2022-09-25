@@ -1,10 +1,10 @@
 #pragma once
 
 #include <stdlib.h>
-#include "Plane.h"
+#include "GameObject.h"
 #include "DLL.h"
 
-class Player : public Plane {
+class Player : public GameObject {
 public:
 	float plane_x;
 	float plane_y;

@@ -16,7 +16,7 @@ DLL::DLL() {
 /* function to add an element in the linked list */
 //if there are 0 elements it adds a new element--> head/tail point to this element
 //if there are 1 or more elements it adds a new element to the tail of the linked list adn updates the tail pointer
-void DLL::Append(Plane* new_plane) {
+void DLL::Append(GameObject* new_plane) {
 	if (head == nullptr) {
 		head = new Node(new_plane);
 		tail = head;
@@ -81,7 +81,7 @@ void DLL::Delete2(int index) {
 
 
 //function to return an element at any given location i
-Plane* DLL::at(int i) {
+GameObject* DLL::at(int i) {
 	int index = 0;
 
 	Node* temp = head;
