@@ -6,8 +6,8 @@
 
 class Player : public Plane {
 public:
-	int plane_x;
-	int plane_y;
+	float plane_x;
+	float plane_y;
 
 	Player();
 	Player(int x, int y);

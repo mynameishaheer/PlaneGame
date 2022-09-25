@@ -34,10 +34,8 @@ void Enemy::updateArt() {
 
 void Enemy::Move() {
 
-	if (y < 27) {
-		y++;
-	}
-	else {
+	y++;
+	if (y > 27) {
 		alive = false;
 	}
 }
@@ -46,5 +44,6 @@ void Enemy::Hit() {
 
 	hit = true;
 	updateArt();
+	int count = 0;
 
 }

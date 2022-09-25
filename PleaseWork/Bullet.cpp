@@ -13,7 +13,7 @@ Bullet::~Bullet()
 
 void Bullet::Move()
 {
-	if (y > 2) {
+	if (y > 2) { 
 		y--;
 	}
 	else {

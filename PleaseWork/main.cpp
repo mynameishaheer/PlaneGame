@@ -45,13 +45,43 @@ int main()
 	//game loop
 	while (game_running)
 	{
+		//INPUT
+		for (int k = 0; k < 6; k++)
+			bKey[k] = (0x8000 & GetAsyncKeyState((unsigned char)("\x27\x25\x28\x26\x20\x1B"[k]))) != 0;
+		//MOVE
+		if (bKey[0])//Right
+		{
+			screen[0] = L'R';
+			player->Translate(4, 0);
+		}
+		if (bKey[1])//Left
+		{
+			screen[0] = L'L';
+			player->Translate(-4, 0);
+
+		}
+		if (bKey[2])//Down
+		{
+			screen[0] = L'D';
+			player->Translate(0, 4);
+		}
+		if (bKey[3])//Up
+		{
+			screen[0] = L'U';
+			player->Translate(0, -4);
+		}
+		if (bKey[5])//Escape
+		{
+			game_running = false;
+		}
+
 		this_thread::sleep_for(50ms);
 		nSpeedCount++;
 
 		if (nSpeedCount % 50 == 0)
 		{
 			int random = rand() % 110;
-			Plane* enemy = new Enemy(random, 1);
+			Plane* enemy = new Enemy(random, 0);
 			enemy_list.Append(enemy);
 		}
 
@@ -60,17 +90,6 @@ int main()
 			Plane* bullet = new Bullet(player->x, player->y - 4);
 			bullet_list.Append(bullet);
 
-		}
-
-
-
-		//INPUT
-		for (int k = 0; k < 6; k++)
-			bKey[k] = (0x8000 & GetAsyncKeyState((unsigned char)("\x27\x25\x28\x26\x20\x1B"[k]))) != 0;
-
-		if (bKey[5])//Escape
-		{
-			game_running = false;
 		}
 
 
@@ -93,29 +112,7 @@ int main()
 				screen[10] = '0' + ones;
 			}
 
-			//MOVE
-			if (bKey[0])//Right
-			{
-				screen[0] = L'R';
-				player->Translate(4, 0);
-			}
-			if (bKey[1])//Left
-			{
-				screen[0] = L'L';
-				player->Translate(-4, 0);
-
-			}
-			if (bKey[2])//Down
-			{
-				screen[0] = L'D';
-				player->Translate(0, 4);
-			}
-			if (bKey[3])//Up
-			{
-				screen[0] = L'U';
-				player->Translate(0, -4);
-			}
-
+			player->Move();
 			//RENDER
 			for (int i = 0; i < 4; i++)
 			{
@@ -151,6 +148,7 @@ int main()
 				}
 
 				for (int a = 0; a < bCount; a++) {
+					bool flag = false;
 					Plane* bull = bullet_list.at(a);
 					if (enemy->hit == false) {
 						if (bull->x+1 > enemy->x + 3 || enemy->x > bull->x + 2) {
@@ -162,7 +160,7 @@ int main()
 						else {
 							screen[90] = L'B';
 							ones++;
-							enemy->Hit();
+							flag = true;
 							bull->Hit();
 						}
 						if (player->x > enemy->x + 3 || enemy->x > player->x + 3) {
@@ -174,6 +172,9 @@ int main()
 						else {
 							screen[45] = L'P';
 						}
+					}
+					else {
+						enemy->Hit();
 					}
 				}
 
