@@ -21,8 +21,8 @@ int main()
 	bool game_running = true;
 
 	//creating a doubly linkedlist
-	DLL object_list;
-	DLL bullets;
+	DLL enemy_list;
+	DLL bullet_list;
 
 	wchar_t* screen = new wchar_t[nScreenWidth * nScreenHeight];
 
@@ -52,13 +52,13 @@ int main()
 		{
 			int random = rand() % 110;
 			Plane* enemy = new Enemy(random, 1);
-			object_list.Append(enemy);
+			enemy_list.Append(enemy);
 		}
 
 		if (nSpeedCount % 15 == 0)
 		{
-			Plane* bullet = new Bullet(player->x, player->y - 2);
-			bullets.Append(bullet);
+			Plane* bullet = new Bullet(player->x, player->y - 4);
+			bullet_list.Append(bullet);
 
 		}
 
@@ -77,8 +77,8 @@ int main()
 		//RENDER
 		if (nSpeedCount % 2 == 0)
 		{
-			int size = object_list.Size();
-			int bCount = bullets.Size();
+			int size = enemy_list.Size();
+			int bCount = bullet_list.Size();
 
 
 			////////////PLAYER////////////
@@ -131,42 +131,72 @@ int main()
 			////////////ENEMY////////////
 			for (int ind = 0; ind < size; ind++)
 			{
-				Plane* enemy = object_list.at(ind);
+				Plane* enemy = enemy_list.at(ind);
 
-				if (enemy->Alive() == true) {
 
-					//MOVE
+				//MOVE
+				if (enemy->alive == true) {
 					enemy->Move();
+				}
 
-					//RENDER
-					for (int i = 0; i < 4; i++)
+				//RENDER
+				for (int i = 0; i < 4; i++)
+				{
+					for (int j = 0; j < 4; j++)
 					{
-						for (int j = 0; j < 4; j++)
-						{
-							if (enemy->Alive() == true) {
-								screen[enemy->x + i + (enemy->y + j) * nScreenWidth] = enemy->Art()[i + j * 4];
-							}
+						if (enemy->Alive() == true || enemy->hit == false) {
+							screen[enemy->x + i + (enemy->y + j) * nScreenWidth] = enemy->Art()[i + j * 4];
 						}
 					}
+				}
 
-					//collision detection
-					if (player->x > enemy->x + 3 || enemy->x > player->x + 3) {
-						screen[45] = L' ';
-					}
-					else if (player->y > enemy->y + 3 || enemy->y > player->y + 3) {
-						screen[45] = L' ';
-					}
-					else {
-						screen[45] = L'B';
+				for (int a = 0; a < bCount; a++) {
+					Plane* bull = bullet_list.at(a);
+					if (enemy->hit == false) {
+						if (bull->x+1 > enemy->x + 3 || enemy->x > bull->x + 2) {
+							screen[60] = L' ';
+						}
+						else if (bull->y + 1 > enemy->y + 3 || enemy->y > bull->y + 2) {
+							screen[60] = L' ';
+						}
+						else {
+							screen[90] = L'B';
+							ones++;
+							enemy->Hit();
+							bull->Hit();
+						}
+						if (player->x > enemy->x + 3 || enemy->x > player->x + 3) {
+							screen[45] = L' ';
+						}
+						else if (player->y > enemy->y + 3 || enemy->y > player->y + 3) {
+							screen[45] = L' ';
+						}
+						else {
+							screen[45] = L'P';
+						}
 					}
 				}
+
+				//COLLIDE
+				//enemy and player collision detection
+
+				//if (player->x > enemy->x + 3 || enemy->x > player->x + 3) {
+				//	screen[45] = L' ';
+				//}
+				//else if (player->y > enemy->y + 3 || enemy->y > player->y + 3) {
+				//	screen[45] = L' ';
+				//}
+				//else {
+				//	screen[45] = L'P';
+				//}
 			}
+
 			////////////ENEMY////////////
 
 			////////////BULLET////////////
 			for (int i = 0; i < bCount; i++) {
 
-				Plane* bull = bullets.at(i);
+				Plane* bull = bullet_list.at(i);
 
 				//MOVE
 				if (bull->alive == true) {
@@ -182,46 +212,46 @@ int main()
 				}
 
 				//COLLIDE
-				for (int j = 0; j < size; j++) {
-					Plane* enemy = object_list.at(j);
+				//for (int j = 0; j < size; j++) {
+				//	Plane* enemy = enemy_list.at(j);
 
-					if (enemy->hit == false) {
-						if (bull->x > enemy->x + 3 || enemy->x > bull->x + 3) {
-							screen[60] = L' ';
-						}
-						else if (bull->y > enemy->y + 3 || enemy->y > bull->y + 3) {
-							screen[60] = L' ';
-						}
-						else {
-							screen[60] = L'D';
-							ones++;
-							enemy->Hit();
-							bull->Hit();
-						}
-					}
-
-				}
+				//	//enemy and bullet collision
+				//	if (enemy->hit == false) {
+				//		if (bull->x > enemy->x + 3 || enemy->x > bull->x + 3) {
+				//			screen[60] = L' ';
+				//		}
+				//		else if (bull->y > enemy->y + 3 || enemy->y > bull->y + 3) {
+				//			screen[60] = L' ';
+				//		}
+				//		else {
+				//			ones++;
+				//			bull->Hit();
+				//			enemy->Hit();
+				//		}
+				//	}
+				//}
 			}
 			////////////BULLET////////////
-
 		}
 
 
 		//CLEANUP
 
-		for (int i = 0; i < object_list.Size(); i++)
+		for (int i = 0; i < enemy_list.Size(); i++)
 		{
-			if (object_list.at(i)->Alive() == false)
+			if (enemy_list.at(i)->Alive() == false)
 			{
-				delete object_list.at(i); //deallocate memory taken by cloud object
-				object_list.Delete2(i);     // deallocate memory taken by node object
-			}
-			if (bullets.at(i)->Alive() == false)
-			{
-				delete bullets.at(i); //deallocate memory taken by cloud object
-				bullets.Delete2(i);     // deallocate memory taken by node object
+				delete enemy_list.at(i); //deallocate memory taken by cloud object
+				enemy_list.Delete2(i);     // deallocate memory taken by node object
 			}
 
+		}
+		for (int i = 0; i < bullet_list.Size(); i++) {
+			if (bullet_list.at(i)->Alive() == false)
+			{
+				delete bullet_list.at(i); //deallocate memory taken by cloud object
+				bullet_list.Delete2(i);     // deallocate memory taken by node object
+			}
 		}
 		//Writing output to console
 		WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
